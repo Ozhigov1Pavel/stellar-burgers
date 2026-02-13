@@ -1,15 +1,27 @@
-import { Preloader } from '@ui';
+import { FC, useEffect } from 'react';
 import { FeedUI } from '@ui-pages';
-import { TOrder } from '@utils-types';
-import { FC } from 'react';
+import { Preloader } from '@ui';
+
+import { useDispatch, useSelector } from '../../services/store';
+import { fetchFeeds } from '@slices';
 
 export const Feed: FC = () => {
-  /** TODO: взять переменную из стора */
-  const orders: TOrder[] = [];
+  const dispatch = useDispatch();
+  const { orders, isLoading } = useSelector((state) => state.feed);
+  const FEED_POLL_MS = 5000;
 
-  if (!orders.length) {
+  useEffect(() => {
+    dispatch(fetchFeeds());
+    const interval = setInterval(() => {
+      dispatch(fetchFeeds());
+    }, FEED_POLL_MS);
+    return () => clearInterval(interval);
+  }, [dispatch]);
+
+  if (isLoading && !orders.length) {
     return <Preloader />;
   }
-
-  <FeedUI orders={orders} handleGetFeeds={() => {}} />;
+  return (
+    <FeedUI orders={orders} handleGetFeeds={() => dispatch(fetchFeeds())} />
+  );
 };
