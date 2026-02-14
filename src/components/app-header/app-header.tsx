@@ -46,9 +46,9 @@ export const AppHeader: FC = () => {
             </p>
           </NavLink>
         </div>
-        <div className={styles.logo}>
+        <NavLink to='/' className={styles.logo}>
           <Logo className='' />
-        </div>
+        </NavLink>
         <NavLink
           to='/profile'
           className={clsx(styles.link, styles.link_position_last)}
