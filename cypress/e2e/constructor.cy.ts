@@ -27,13 +27,14 @@ describe('Constructor page', () => {
   it('opens and closes ingredient modal', () => {
     cy.contains('Соус лунный').click();
     cy.contains('Детали ингредиента').should('exist');
-    cy.contains('Соус лунный').should('exist');
+    cy.get('#modals').contains('Соус лунный').should('exist');
 
     cy.get('[data-testid="modal-close"]').click();
     cy.contains('Детали ингредиента').should('not.exist');
 
     cy.contains('Соус лунный').click();
     cy.contains('Детали ингредиента').should('exist');
+    cy.get('#modals').contains('Соус лунный').should('exist');
     cy.get('[data-testid="modal-overlay"]').click({ force: true });
     cy.contains('Детали ингредиента').should('not.exist');
   });

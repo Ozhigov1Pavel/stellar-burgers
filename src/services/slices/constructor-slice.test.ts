@@ -1,5 +1,6 @@
 import {
   addIngredient,
+  clearConstructor,
   constructorReducer,
   moveIngredient,
   removeIngredient
@@ -76,5 +77,15 @@ describe('burgerConstructor reducer', () => {
       moveIngredient({ from: 0, to: 2 })
     );
     expect(state.ingredients[2].id).toBe('1');
+  });
+
+  it('clears constructor', () => {
+    const initialState = {
+      bun: bun,
+      ingredients: [{ ...main, id: '1' }]
+    };
+    const state = constructorReducer(initialState, clearConstructor());
+    expect(state.bun).toBeNull();
+    expect(state.ingredients).toHaveLength(0);
   });
 });
